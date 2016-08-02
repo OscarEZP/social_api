@@ -110,10 +110,15 @@ class AuthController extends Controller
      * @return User
      */
     private function findOrCreateUser($socialUser)
-    {
-        dd($socialUser);
-        return;
-        $authUser = User::where('email', $socialUser->email)->first();
+    {   
+        
+        if ($socialUser->email != null) {
+            
+            $authUser = User::where('email', $socialUser->email)->first();
+        }else{
+            $socialUser->email = 'oskr96.oassaasz@gmail.com';
+            $authUser = User::where('name', $socialUser->nickname)->first();
+        }
 
         if ($authUser){
             return $authUser;
